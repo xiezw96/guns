@@ -25,7 +25,7 @@ layui.use(['layer', 'form', 'table', 'admin', 'ax', 'func'], function () {
             {field: 'content', align: "center", sort: true, title: '内容'},
             {field: 'createrName', align: "center", sort: true, title: '发布者'},
             {field: 'createTime', align: "center", sort: true, title: '创建时间'},
-            {align: 'center', toolbar: '#tableBar', title: '操作', minWidth: 200}
+            {align: 'center', toolbar: '#tableBar', title: '操作', minWidth: 130}
         ]];
     };
 

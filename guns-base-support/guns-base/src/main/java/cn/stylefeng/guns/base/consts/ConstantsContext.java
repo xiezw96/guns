@@ -71,6 +71,18 @@ public class ConstantsContext {
     }
 
     /**
+     * 获取第三方登录开关
+     */
+    public static Boolean getOauth2Open() {
+        String gunsKaptchaOpen = (String) CONSTNTS_HOLDER.get("GUNS_OAUTH2_OPEN");
+        if (CommonStatus.ENABLE.getCode().equalsIgnoreCase(gunsKaptchaOpen)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * 获取管理系统名称
      */
     public static String getSystemName() {

@@ -36,7 +36,7 @@ layui.use(['layer', 'form', 'ztree', 'laydate', 'admin', 'ax', 'table', 'treetab
             {field: 'levels', align: "center", sort: true, title: '层级'},
             {field: 'isMenuName', align: "center", sort: true, title: '是否是菜单'},
             {field: 'statusName', align: "center", sort: true, title: '状态'},
-            {align: 'center', toolbar: '#tableBar', title: '操作', minWidth: 200}
+            {align: 'center', toolbar: '#tableBar', title: '操作', minWidth: 130}
         ]];
     };
 

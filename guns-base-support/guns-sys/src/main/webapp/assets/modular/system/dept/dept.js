@@ -28,7 +28,7 @@ layui.use(['table', 'admin', 'ax', 'ztree', 'func', 'tree'], function () {
             {field: 'fullName', align: "center", sort: true, title: '部门全称'},
             {field: 'sort', align: "center", sort: true, title: '排序'},
             {field: 'description', align: "center", sort: true, title: '备注'},
-            {align: 'center', toolbar: '#tableBar', title: '操作', minWidth: 200}
+                {align: 'center', toolbar: '#tableBar', title: '操作', minWidth: 130}
         ]];
     };
 

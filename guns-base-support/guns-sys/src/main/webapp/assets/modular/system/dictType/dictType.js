@@ -50,7 +50,7 @@ layui.use(['table', 'ax', 'func'], function () {
                 }
             },
             {field: 'createTime', align: "center", sort: true, title: '添加时间', minWidth: 161},
-            {align: 'center', toolbar: '#tableBar', title: '操作'}
+            {align: 'center', toolbar: '#tableBar', title: '操作', minWidth: 200}
         ]];
     };
 
@@ -119,6 +119,20 @@ layui.use(['table', 'ax', 'func'], function () {
         Feng.confirm("是否删除?", operation);
     };
 
+    /**
+     * 点击基础字典
+     *
+     * @param data 点击按钮时候的行数据
+     */
+    DictType.openDetailDlg = function (data) {
+        func.open({
+            height: 630,
+            title: '编辑基础字典',
+            content: Feng.ctxPath + '/dict?dictTypeId=' + data.dictTypeId,
+            tableId: DictType.tableId
+        });
+    };
+
     // 渲染表格
     var tableResult = table.render({
         elem: '#' + DictType.tableId,
@@ -148,6 +162,8 @@ layui.use(['table', 'ax', 'func'], function () {
             DictType.openEditDlg(data);
         } else if (layEvent === 'delete') {
             DictType.onDeleteItem(data);
+        } else if (layEvent === 'detail') {
+            DictType.openDetailDlg(data);
         }
     });
 });

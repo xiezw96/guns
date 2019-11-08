@@ -32,7 +32,7 @@ layui.use(['table', 'ax', 'treetable', 'func'], function () {
                 }
             },
             {field: 'createTime', align: "center", sort: true, title: '创建时间'},
-            {align: 'center', toolbar: '#tableBar', title: '操作'}
+            {align: 'center', toolbar: '#tableBar', title: '操作', minWidth: 130}
         ]];
     };
 

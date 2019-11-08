@@ -26,7 +26,7 @@ layui.use(['table', 'admin', 'ax', 'form', 'func'], function () {
             {field: 'createTime', sort: true, title: '创建时间'},
             {field: 'updateTime', sort: true, title: '更新时间'},
             {field: 'status', sort: true, templet: '#statusTpl', title: '状态'},
-            {align: 'center', toolbar: '#tableBar', title: '操作'}
+            {align: 'center', toolbar: '#tableBar', title: '操作', minWidth: 130}
         ]];
     };
 
