@@ -125,12 +125,7 @@ layui.use(['table', 'ax', 'func'], function () {
      * @param data 点击按钮时候的行数据
      */
     DictType.openDetailDlg = function (data) {
-        func.open({
-            height: 630,
-            title: '编辑基础字典',
-            content: Feng.ctxPath + '/dict?dictTypeId=' + data.dictTypeId,
-            tableId: DictType.tableId
-        });
+        window.location.href = Feng.ctxPath + '/dict?dictTypeId=' + data.dictTypeId;
     };
 
     // 渲染表格
