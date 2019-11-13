@@ -33,6 +33,46 @@
         .login-footer a:hover {
             color: rgba(0, 0, 0, 0.4) !important;
         }
+
+        .layui-form-item {
+            position: relative !important;
+        }
+
+        .layui-input-block {
+            left: 0 !important;
+            margin-left: 0 !important;
+        }
+
+        .layui-form-label {
+            position: absolute !important;
+            width: 100% !important;
+            color: #757575 !important;
+            background-color: #ffffff !important;
+            border-radius: 2px !important;
+            cursor: text !important;
+            transition: all .3s ease-in-out !important;
+            -webkit-transition: all .3s ease-in-out !important;
+            z-index: 1 !important;
+        }
+
+        .layui-input {
+            border-radius: 2px !important;
+        }
+
+        .layui-input-active label {
+            top: -10px !important;
+            left: 10px !important;
+            padding: 0 5px !important;
+            font-size: 12px !important;
+            color: #ff6700 !important;
+            border-color: #ffffff !important;
+            width: auto !important;
+            height: auto !important;
+        }
+
+        .layui-input-focus input {
+            border-color: #ff6700 !important;
+        }
     </style>
     <script>
         if (window != top)
@@ -44,7 +84,7 @@
 <div class="login-wrapper">
 
     <!--<div class="login-header">-->
-        <!--<img src="${ctxPath}/assets/expand/images/logo.png"> ${constants.getSystemName()}-->
+    <!--<img src="${ctxPath}/assets/expand/images/logo.png"> ${constants.getSystemName()}-->
     <!--</div>-->
 
     <div class=" login-body">
@@ -53,7 +93,6 @@
                 <i class="layui-icon layui-icon-engine"></i>&nbsp;&nbsp;用户登录
             </div>
             <div class="layui-card-body layui-form layui-form-pane" lay-filter="loginForm">
-                <input type="password" style="display:none;" autocomplete="new-password"/>
                 @if(constants.getTenantOpen()){
                 <div class="layui-form-item">
                     <label class="layui-form-label">租户</label>
@@ -67,15 +106,13 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">账号</label>
                     <div class="layui-input-block">
-                        <input name="username" id="username" placeholder="请输入账号"
-                               type="text" lay-verify="required" class="layui-input" autocomplete="off">
+                        <input name="username" id="username" type="text" lay-verify="required" placeholder="请输入账号" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">密码</label>
                     <div class="layui-input-block">
-                        <input name="password" id="password" placeholder="请输入密码"
-                               type="password" lay-verify="required" class="layui-input" autocomplete="off">
+                        <input name="password" id="password" type="password" lay-verify="required" placeholder="请输入密码" class="layui-input">
                     </div>
                 </div>
                 @if(constants.getKaptchaOpen()){
@@ -84,7 +121,7 @@
                     <div class="layui-input-block">
                         <div class="layui-row inline-block">
                             <div class="layui-col-xs7">
-                                <input name="kaptcha" id="kaptcha" type="text" lay-verify="required" placeholder="验证码" class="layui-input">
+                                <input name="kaptcha" id="kaptcha" type="text" lay-verify="required" placeholder="请输入验证码" class="layui-input">
                             </div>
                             <div class="layui-col-xs5" style="padding-left: 10px;">
                                 <img class="login-captcha" src="${ctxPath}/kaptcha">
@@ -96,10 +133,12 @@
                 <div class="layui-form-item">
                     <button class="layui-btn layui-btn-fluid" id="submit">登 录</button>
                 </div>
+                @if(constants.getUserOperateOpen()){
                 <div class="layui-form-item">
                     <a href="javascript:;" class="layui-link">注册</a>
                     <a href="javascript:;" class="layui-link">忘记密码</a>
                 </div>
+                @}
                 @if(constants.getOauth2Open()){
                 <div class="layui-form-item login-other">
                     <label>第三方登录</label>
@@ -177,9 +216,36 @@
             @}
             ajax.start();
         });
+
+        /**
+         * 表单label组件单击时
+         */
+        $(".layui-form-label").click(function (e) {
+            e.stopPropagation();
+            $(this).parent().addClass("layui-input-active").find(".layui-input").focus();
+        });
+
+        /**
+         * 表单input组件获取焦点时
+         */
+        $(".layui-input").focus(function () {
+            $(this).parent().parent().addClass("layui-input-focus");
+        });
+
+        /**
+         * 表单input组件失去焦点时
+         */
+        $(".layui-input").blur(function () {
+            var that =  $(this).parent().parent();
+            that.removeClass("layui-input-focus");
+            if ($(this).val() != "") {
+                that.addClass("layui-input-active");
+            } else {
+                that.removeClass("layui-input-active");
+            }
+        })
     });
 </script>
-
 
 </body>
 </html>

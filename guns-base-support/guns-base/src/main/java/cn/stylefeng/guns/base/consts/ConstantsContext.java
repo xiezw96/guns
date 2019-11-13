@@ -74,8 +74,20 @@ public class ConstantsContext {
      * 获取第三方登录开关
      */
     public static Boolean getOauth2Open() {
-        String gunsKaptchaOpen = (String) CONSTNTS_HOLDER.get("GUNS_OAUTH2_OPEN");
-        if (CommonStatus.ENABLE.getCode().equalsIgnoreCase(gunsKaptchaOpen)) {
+        String gunsOauth2Open = (String) CONSTNTS_HOLDER.get("GUNS_OAUTH2_OPEN");
+        if (CommonStatus.ENABLE.getCode().equalsIgnoreCase(gunsOauth2Open)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 获取用户操作开关
+     */
+    public static Boolean getUserOperateOpen() {
+        String gunsUserOperateOpen = (String) CONSTNTS_HOLDER.get("GUNS_USER_OPERATE_OPEN");
+        if (CommonStatus.ENABLE.getCode().equalsIgnoreCase(gunsUserOperateOpen)) {
             return true;
         } else {
             return false;
