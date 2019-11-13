@@ -9,78 +9,9 @@
     <link href="${ctxPath}/assets/expand/images/favicon.ico" rel="icon">
     <link rel="stylesheet" href="${ctxPath}/assets/common/libs/layui/css/layui.css?v=${constants.getReleaseVersion()}"/>
     <link rel="stylesheet" href="${ctxPath}/assets/common/css/login.css?v=${constants.getReleaseVersion()}" media="all">
-    <style>
-        body {
-            background-image: url("${ctxPath}/assets/common/images/bg_login2.png");
-            background-position: center 110px;
-            background-repeat: no-repeat;
-            background-size: 100%;
-            background-color: #f0f2f5;
-        }
-
-        .login-header {
-            color: rgba(0, 0, 0, .85) !important;
-        }
-
-        .login-footer {
-            color: rgba(0, 0, 0, 0.7) !important;
-        }
-
-        .login-footer a {
-            color: rgba(0, 0, 0, 0.7) !important;
-        }
-
-        .login-footer a:hover {
-            color: rgba(0, 0, 0, 0.4) !important;
-        }
-
-        .layui-form-item {
-            position: relative !important;
-        }
-
-        .layui-input-block {
-            left: 0 !important;
-            margin-left: 0 !important;
-        }
-
-        .layui-form-label {
-            position: absolute !important;
-            width: 100% !important;
-            color: #757575 !important;
-            background-color: #ffffff !important;
-            border-radius: 2px !important;
-            cursor: text !important;
-            transition: all .3s ease-in-out !important;
-            -webkit-transition: all .3s ease-in-out !important;
-            z-index: 1 !important;
-        }
-
-        .layui-input {
-            border-radius: 2px !important;
-        }
-
-        .layui-input-active label {
-            top: -10px !important;
-            left: 10px !important;
-            padding: 0 5px !important;
-            font-size: 12px !important;
-            color: #ff6700 !important;
-            border-color: #ffffff !important;
-            width: auto !important;
-            height: auto !important;
-        }
-
-        .layui-input-focus input {
-            border-color: #ff6700 !important;
-        }
-    </style>
-    <script>
-        if (window != top)
-            top.location.replace(location.href);
-    </script>
 </head>
 
-<body>
+<body style="background-image: url('${ctxPath}/assets/common/images/bg_login2.png')">
 <div class="login-wrapper">
 
     <!--<div class="login-header">-->
@@ -93,6 +24,7 @@
                 <i class="layui-icon layui-icon-engine"></i>&nbsp;&nbsp;用户登录
             </div>
             <div class="layui-card-body layui-form layui-form-pane" lay-filter="loginForm">
+                <input type="password" style="display:none;" autocomplete="new-password"/>
                 @if(constants.getTenantOpen()){
                 <div class="layui-form-item">
                     <label class="layui-form-label">租户</label>
@@ -104,23 +36,23 @@
                 </div>
                 @}
                 <div class="layui-form-item">
-                    <label class="layui-form-label">账号</label>
                     <div class="layui-input-block">
+                        <label class="layui-form-label">账号</label>
                         <input name="username" id="username" type="text" lay-verify="required" placeholder="请输入账号" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">密码</label>
                     <div class="layui-input-block">
+                        <label class="layui-form-label">密码</label>
                         <input name="password" id="password" type="password" lay-verify="required" placeholder="请输入密码" class="layui-input">
                     </div>
                 </div>
                 @if(constants.getKaptchaOpen()){
                 <div class="layui-form-item">
-                    <label class="layui-form-label">验证码</label>
                     <div class="layui-input-block">
                         <div class="layui-row inline-block">
                             <div class="layui-col-xs7">
+                                <label class="layui-form-label">验证码</label>
                                 <input name="kaptcha" id="kaptcha" type="text" lay-verify="required" placeholder="请输入验证码" class="layui-input">
                             </div>
                             <div class="layui-col-xs5" style="padding-left: 10px;">
@@ -157,6 +89,9 @@
 
 @/* 加入contextPath属性和session超时的配置 */
 <script type="text/javascript">
+    if (window != top) {
+        top.location.replace(location.href);
+    }
     var Feng = {
         ctxPath: "${ctxPath}",
         version: '${constants.getReleaseVersion()}'
@@ -199,6 +134,16 @@
 
         //登录操作
         $('#submit').click(function () {
+            var username = $("#username").val();
+            var password = $("#password").val();
+            if (username == "") {
+                layer.msg("账号不能为空！", {icon: 5, anim: 6});
+                return;
+            }
+            if (password == "") {
+                layer.msg("密码不能为空！", {icon: 5, anim: 6});
+                return;
+            }
             var ajax = new $ax(Feng.ctxPath + "/login", function (data) {
                 Feng.success("登录成功!");
                 index.clearTabCache();
@@ -206,12 +151,22 @@
             }, function (data) {
                 layer.msg("登录失败！" + data.responseJSON.message, {icon: 5, anim: 6});
             });
-            ajax.set("username", $("#username").val());
-            ajax.set("password", $("#password").val());
+            ajax.set("username", username);
+            ajax.set("password", password);
             @if(constants.getTenantOpen()){
-                ajax.set("tenantCode", $("#tenantCode").val());
+                var tenantCode = $("#tenantCode").val();
+                if (tenantCode == "") {
+                    layer.msg("租户不能为空！", {icon: 5, anim: 6});
+                    return;
+                }
+                ajax.set("tenantCode", tenantCode);
             @}
             @if(constants.getKaptchaOpen()){
+                var kaptcha = $("#kaptcha").val();
+                if (kaptcha == "") {
+                    layer.msg("验证码不能为空！", {icon: 5, anim: 6});
+                    return;
+                }
                 ajax.set("kaptcha", $("#kaptcha").val());
             @}
             ajax.start();
@@ -222,28 +177,31 @@
          */
         $(".layui-form-label").click(function (e) {
             e.stopPropagation();
-            $(this).parent().addClass("layui-input-active").find(".layui-input").focus();
+            var that = $(this).parents(".layui-form-item");
+            that.addClass("layui-input-active").find(".layui-input").focus();
         });
 
         /**
          * 表单input组件获取焦点时
          */
         $(".layui-input").focus(function () {
-            $(this).parent().parent().addClass("layui-input-focus");
+            var that = $(this).parents(".layui-form-item");
+            that.addClass("layui-input-focus");
+            that.addClass("layui-input-active");
         });
 
         /**
          * 表单input组件失去焦点时
          */
         $(".layui-input").blur(function () {
-            var that =  $(this).parent().parent();
+            var that = $(this).parents(".layui-form-item");
             that.removeClass("layui-input-focus");
             if ($(this).val() != "") {
                 that.addClass("layui-input-active");
             } else {
                 that.removeClass("layui-input-active");
             }
-        })
+        });
     });
 </script>
 
